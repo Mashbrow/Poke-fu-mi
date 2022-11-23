@@ -1,4 +1,4 @@
-interface PokemonShop {
+interface PokemonTemplate {
     id: number;
     name: string;
     type : string;
@@ -26,5 +26,5 @@ interface PokemonOwned {
     owner_id : number
 }
 
-export { PokemonShop, PokemonOwned }
+export { PokemonTemplate, PokemonOwned }
   

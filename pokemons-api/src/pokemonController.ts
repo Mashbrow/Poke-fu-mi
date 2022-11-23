@@ -1,4 +1,4 @@
-import {PokemonOwned, PokemonShop} from './model'
+import {PokemonOwned, PokemonTemplate} from './model'
 import PokemonRepository from './pokemonRepository'
 
 const pokemonRepository = new PokemonRepository()

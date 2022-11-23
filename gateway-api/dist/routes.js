@@ -35,8 +35,6 @@ const register = (app) => {
         const myId = req.query.myId;
         const pokemonShopId = req.query.pokemonShopId;
         GatewayController.buyPokemon(myId, pokemonShopId).then(value => {
-            console.log("out of gateway controller");
-            console.log(value);
             res.status(200).json(value);
         });
     });

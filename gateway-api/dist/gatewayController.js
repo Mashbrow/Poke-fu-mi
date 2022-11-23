@@ -24,39 +24,38 @@ const register = (newUser) => __awaiter(void 0, void 0, void 0, function* () {
     return resp;
 });
 exports.register = register;
-const buyPokemon = (myId, pokemonShopId) => __awaiter(void 0, void 0, void 0, function* () {
+const buyPokemon = (myId, tradeId) => __awaiter(void 0, void 0, void 0, function* () {
     return axios_1.default.get('http://localhost:5002/user/' + myId.toString()).then(resUser => {
-        console.log(resUser.data);
-        return axios_1.default.get('http://localhost:5000/shop/' + pokemonShopId.toString()).then(resPokemon => {
-            console.log(resPokemon.data);
-            let user = resUser.data;
-            const pokemonShop = resPokemon.data;
-            if (user.money >= pokemonShop.price) {
-                const pokemon = {
-                    name: pokemonShop.name,
-                    type: pokemonShop.type,
-                    evolution_id: pokemonShop.evolution_id,
-                    xp: pokemonShop.xp,
-                    xp_max: pokemonShop.xp_max,
-                    level: pokemonShop.level,
-                    level_max: pokemonShop.level_max,
-                    hp_max: pokemonShop.hp_max,
-                    capacite_id: pokemonShop.capacite_id,
-                    owner_id: myId
-                };
-                user.money -= pokemonShop.price;
-                return axios_1.default.post('http://localhost:5003/pokemon', pokemon).then(_ => {
-                    console.log("post done");
-                    return axios_1.default.get('http://localhost:5003/pokemonbyuserid/' + myId.toString()).then(value => {
-                        console.log(value.data);
-                        return value.data;
+        return axios_1.default.get('http://localhost:5000/shop/' + tradeId.toString()).then(resTrade => {
+            const trade = resTrade.data;
+            return axios_1.default.get('http://localhost:5005/template/' + trade.pokemon_id.toString()).then(resPokemon => {
+                let user = resUser.data;
+                let pokemonTemplate = resPokemon.data;
+                if (user.money >= trade.price) {
+                    const pokemon = {
+                        name: pokemonTemplate.name,
+                        type: pokemonTemplate.type,
+                        evolution_id: pokemonTemplate.evolution_id,
+                        xp: pokemonTemplate.xp,
+                        xp_max: pokemonTemplate.xp_max,
+                        level: pokemonTemplate.level,
+                        level_max: pokemonTemplate.level_max,
+                        hp_max: pokemonTemplate.hp_max,
+                        capacite_id: pokemonTemplate.capacite_id,
+                        owner_id: myId
+                    };
+                    user.money -= trade.price;
+                    ///TODO: Ajouter une requete au service user pour modifier l'argent du user.
+                    return axios_1.default.post('http://localhost:5003/pokemon', pokemon).then(_ => {
+                        return axios_1.default.get('http://localhost:5003/pokemonbyuserid/' + myId.toString()).then(value => {
+                            return value.data;
+                        });
                     });
-                });
-            }
-            else {
-                console.log("ELSE!!!!!!!!");
-                return axios_1.default.get('http://localhost:5003/pokemonbyuserid/' + myId.toString()).then(value => value.data);
-            }
+                }
+                else {
+                    return axios_1.default.get('http://localhost:5003/pokemonbyuserid/' + myId.toString()).then(value => value.data);
+                }
+            });
         });
     });
 });

@@ -1,6 +1,6 @@
 import * as express from "express"
 import * as ShopController from "./pokemonController"
-import { PokemonOwned, PokemonShop } from './model'
+import { PokemonOwned, PokemonTemplate } from './model'
 
 export const register = ( app: express.Application ) => {
   app.get('/', (req, res) => res.send('Hello World!'));

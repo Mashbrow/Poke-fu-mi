@@ -14,7 +14,6 @@ export const register = ( app: express.Application ) => {
     res.status(200).json(ShopController.findTradeById(pokemonId))
   })
 
-
   app.post('/shop', (req, res) => {
     const pokemon_id: number = (req.query as any).pokemon_id
     const price: number = (req.query as any).price

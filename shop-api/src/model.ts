@@ -9,7 +9,6 @@ interface Pokemon {
     level_max : number,
     hp_max : number,
     capacite_id : number,
-    price : number
 }
 
 interface Trade {

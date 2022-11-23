@@ -1,4 +1,4 @@
-interface PokemonShop {
+interface PokemonTemplate {
     id: number;
     name: string;
     type : string;
@@ -9,7 +9,6 @@ interface PokemonShop {
     level_max : number,
     hp_max : number,
     capacite_id : number,
-    price : number
 }
 
 interface PokemonOwned {
@@ -32,5 +31,11 @@ interface User {
     money: number
 }
 
-export { PokemonShop, PokemonOwned, User }
+interface Trade {
+    id?:number,
+    pokemon_id: number,
+    price:number
+}
+
+export { PokemonTemplate, PokemonOwned, User, Trade}
   

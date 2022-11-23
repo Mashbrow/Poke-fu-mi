@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3'
 import fs from 'fs'
-import { PokemonOwned, PokemonShop } from './model'
+import { PokemonOwned, PokemonTemplate } from './model'
 import {findPokemonByName} from "./pokemonController"; //← not needed right now
 import * as utils from "./utils"
 

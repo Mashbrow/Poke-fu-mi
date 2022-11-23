@@ -1,4 +1,4 @@
-import {PokemonOwned, PokemonShop, User} from './model'
+import {PokemonOwned, PokemonTemplate, User, Trade} from './model'
 import axios from "axios";
 
 
@@ -13,37 +13,38 @@ const register = async (newUser:User) : Promise<User> => {
 }
 
 
-const buyPokemon = async (myId : number , pokemonShopId:number) : Promise<void|PokemonOwned[]> => {
+const buyPokemon = async (myId : number , tradeId:number) : Promise<void|PokemonOwned[]> => {
   return axios.get('http://localhost:5002/user/'+myId.toString()).then(resUser=>{
-    console.log(resUser.data)
-    return axios.get('http://localhost:5000/shop/'+pokemonShopId.toString()).then(resPokemon=> {
-      console.log(resPokemon.data)
-      let user : User=resUser.data
-      const pokemonShop : PokemonShop = resPokemon.data
-      if (user.money >= pokemonShop.price){
-        const pokemon : PokemonOwned = {
-          name : pokemonShop.name,
-          type : pokemonShop.type,
-          evolution_id : pokemonShop.evolution_id,
-          xp : pokemonShop.xp ,
-          xp_max : pokemonShop.xp_max,
-          level : pokemonShop.level,
-          level_max : pokemonShop.level_max,
-          hp_max : pokemonShop.hp_max,
-          capacite_id : pokemonShop.capacite_id,
-          owner_id : myId
-        }
-        user.money -= pokemonShop.price
-        ///TODO: Ajouter une requete au service user pour modifier l'argent du user.
+    return axios.get('http://localhost:5000/shop/'+tradeId.toString()).then(resTrade=> {
+      const trade : Trade = resTrade.data
+      return axios.get('http://localhost:5005/template/'+trade.pokemon_id.toString()).then(resPokemon=>{
+        let user : User=resUser.data
+        let pokemonTemplate : PokemonTemplate = resPokemon.data
+        if (user.money >= trade.price){
+          const pokemon : PokemonOwned = {
+            name : pokemonTemplate.name,
+            type : pokemonTemplate.type,
+            evolution_id : pokemonTemplate.evolution_id,
+            xp : pokemonTemplate.xp ,
+            xp_max : pokemonTemplate.xp_max,
+            level : pokemonTemplate.level,
+            level_max : pokemonTemplate.level_max,
+            hp_max : pokemonTemplate.hp_max,
+            capacite_id : pokemonTemplate.capacite_id,
+            owner_id : myId
+          }
+          user.money -= trade.price
+          ///TODO: Ajouter une requete au service user pour modifier l'argent du user.
 
-        return axios.post('http://localhost:5003/pokemon', pokemon).then( _ => {
-          return axios.get('http://localhost:5003/pokemonbyuserid/'+myId.toString()).then(value=>{
-             return value.data})
+          return axios.post('http://localhost:5003/pokemon', pokemon).then( _ => {
+            return axios.get('http://localhost:5003/pokemonbyuserid/'+myId.toString()).then(value=>{
+               return value.data})
+          })
+        }
+        else {
+          return axios.get('http://localhost:5003/pokemonbyuserid/'+myId.toString()).then(value=>value.data)
+        }
         })
-      }
-      else {
-        return axios.get('http://localhost:5003/pokemonbyuserid/'+myId.toString()).then(value=>value.data)
-      }
     })
   })
 }

@@ -1,6 +1,6 @@
 import * as express from "express"
 import * as GatewayController from "./gatewayController"
-import { PokemonOwned, PokemonShop, User } from './model'
+import { PokemonOwned, PokemonTemplate, User } from './model'
 
 export const register = ( app: express.Application ) => {
   app.get('/', (req, res) => res.send('Hello World!'));
@@ -14,8 +14,6 @@ export const register = ( app: express.Application ) => {
     const myId: number = (req.query as any).myId
     const pokemonShopId: number = (req.query as any).pokemonShopId
     GatewayController.buyPokemon(myId,pokemonShopId).then(value => {
-      console.log("out of gateway controller")
-      console.log(value)
       res.status(200).json(value)})
   })
 
@@ -23,6 +21,12 @@ export const register = ( app: express.Application ) => {
     const newUser: User = req.body
     GatewayController.register(newUser).then(value=> {res.status(200).json(value)})
   })
+
+  //TODO:AJOUTER LE GET MYTEAM
+
+  //TODO:AJOUTER LE POST UN DE MES POKEMONS DANS MA TEAM
+
+  //TODO:AJOUTER UN SERVICE LOGIN et les identifiants dans le service USER
 
 
 }
