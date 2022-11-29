@@ -36,7 +36,12 @@ const register = (app) => {
     });
     app.post('/user', (req, res) => {
         const newUser = req.body;
-        res.status(200).json(userController.addUser(newUser));
+        userController.addUser(newUser).then(value => res.status(200).json(value));
+    });
+    app.post('/user/reducemoney/', (req, res) => {
+        const user_id = Number(req.query.id);
+        const amount = req.query.amount;
+        res.status(200).json(userController.reduceMoney(user_id, amount));
     });
 };
 exports.register = register;

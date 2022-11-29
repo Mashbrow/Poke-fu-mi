@@ -37,13 +37,22 @@ class UserRepository {
         return rows;
     }
     createUser(user) {
-        const statement = this.db.prepare("INSERT INTO users (name, money) VALUES (?,?)");
-        const id = statement.run(user.name, user.money).lastInsertRowid;
+        const statement = this.db.prepare("INSERT INTO users (name, password) VALUES (?,?)");
+        const id = statement.run(user.name, user.password).lastInsertRowid;
         return id;
     }
     updateUser(userId, user) {
-        const statement = this.db.prepare("UPDATE shop SET user_id, name WHERE user_id=" + userId.toString());
+        const statement = this.db.prepare("UPDATE users SET user_id, name WHERE user_id=" + userId.toString());
         return statement.run(user.id, user.name).lastInsertRowid;
+    }
+    addMoney(userId, amount) {
+        const statement1 = this.db
+            .prepare("SELECT * FROM users WHERE user_id = ?");
+        const rows = statement1.get(userId);
+        const previous_amount = rows.money;
+        const new_amount = previous_amount + amount;
+        const statement = this.db.prepare("UPDATE users SET money = (?) WHERE user_id=" + userId.toString());
+        return statement.run(new_amount);
     }
 }
 exports.default = UserRepository;

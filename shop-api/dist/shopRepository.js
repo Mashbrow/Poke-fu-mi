@@ -9,8 +9,8 @@ class ShopRepository {
     constructor() {
         this.db = new better_sqlite3_1.default('db/shop.db', { verbose: console.log });
         this.applyMigrations();
-        const init_statement = this.db.prepare("INSERT INTO shop (pokemon_id,price) VALUES (?, ?)");
-        init_statement.run(1, 0);
+        const init_statement = this.db.prepare("INSERT INTO shop (pokemon_id) VALUES (?)");
+        init_statement.run(1);
     }
     //Table creation
     applyMigrations() {

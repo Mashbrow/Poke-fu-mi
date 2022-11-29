@@ -27,6 +27,7 @@ interface PokemonOwned {
 
 interface User {
     id: number,
+    password:string,
     name: string,
     money: number
 }

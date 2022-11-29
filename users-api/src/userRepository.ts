@@ -39,19 +39,28 @@ export default class UserRepository {
 	const statement = this.db
         .prepare("SELECT * FROM users WHERE user_id = ?")
 	const rows: User[] = statement.get(userId)
-	return rows    
+	return rows
   }
 
   createUser(user: User) {
     const statement =
-    this.db.prepare("INSERT INTO users (name, money) VALUES (?,?)")
-    const id = statement.run(user.name,user.money).lastInsertRowid
+    this.db.prepare("INSERT INTO users (name, password) VALUES (?,?)")
+    const id = statement.run(user.name,user.password).lastInsertRowid as number
     return id
   }
 
   updateUser(userId: number, user: User) {
       const statement = 
-      this.db.prepare("UPDATE shop SET user_id, name WHERE user_id="+userId.toString())
+      this.db.prepare("UPDATE users SET user_id, name WHERE user_id="+userId.toString())
       return statement.run(user.id,user.name).lastInsertRowid
+  }
+  addMoney(userId:number, amount:number) {
+    const statement1 = this.db
+        .prepare("SELECT * FROM users WHERE user_id = ?")
+	const rows: User = statement1.get(userId)
+    const previous_amount : number = rows.money
+    const new_amount = previous_amount + amount
+    const statement = this.db.prepare("UPDATE users SET money = (?) WHERE user_id=" + userId.toString())
+    return statement.run(new_amount)
   }
 }

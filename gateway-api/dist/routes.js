@@ -27,12 +27,14 @@ exports.register = void 0;
 const GatewayController = __importStar(require("./gatewayController"));
 const register = (app) => {
     app.get('/', (req, res) => res.send('Hello World!'));
-    app.get('/mypokemons/:id', (req, res) => {
-        const myId = parseFloat(req.params.id);
-        GatewayController.findMyPokemons(myId).then(value => { res.status(200).json(value); });
+    app.get('/mypokemons/:token', (req, res) => {
+        const token = req.params.token;
+        const id = GatewayController.unmakeToken(token);
+        GatewayController.findMyPokemons(id).then(value => { res.status(200).json(value); });
     });
-    app.post('/buypokemon/', (req, res) => {
-        const myId = req.query.myId;
+    app.post('/buypokemon/:token', (req, res) => {
+        const token = req.params.token;
+        const myId = GatewayController.unmakeToken(token);
         const pokemonShopId = req.query.pokemonShopId;
         GatewayController.buyPokemon(myId, pokemonShopId).then(value => {
             res.status(200).json(value);
@@ -40,8 +42,34 @@ const register = (app) => {
     });
     app.post('/register', (req, res) => {
         const newUser = req.body;
-        GatewayController.register(newUser).then(value => { res.status(200).json(value); });
+        GatewayController.register(newUser).then(value => { res.status(200).json("Votre id:" + value.toString()); });
     });
+    //GET MYTEAM (myId en entrée)
+    app.get('/myteam/:token', (req, res) => {
+        const token = req.params.token;
+        const myId = GatewayController.unmakeToken(token);
+        GatewayController.myTeam(myId).then(value => { res.status(200).json(value); });
+    });
+    //POST UN DE MES POKEMONS DANS MA TEAM (myId, IdPokemon, NumeroSlot)
+    app.post('/myteam/:token', (req, res) => {
+        const token = req.params.token;
+        const myId = GatewayController.unmakeToken(token);
+        const myPokemonId = req.query.pokemonShopId;
+        const myTeamSlot = req.query.slot;
+        GatewayController.addToTeam(myId, myPokemonId, myTeamSlot).then(value => { res.status(200).json(value); });
+    });
+    //SERVICE LOGIN(monId,MonMDP) et les identifiants dans le service USER
+    app.get('/login', (req, res) => {
+        const id = req.query.myId;
+        const password = req.query.myPassword;
+        return GatewayController.makeToken(id, password).then(value => { res.status(200).json(value); });
+    });
+    app.get('/untoken/:token', (req, res) => {
+        const token = req.params.token;
+        return res.status(200).json(GatewayController.unmakeToken(token));
+    });
+    //TODO changer register pour ajouter le mdp
+    //TODO RAJOUTER LA GESTION DES ERREURS
 };
 exports.register = register;
 //# sourceMappingURL=routes.js.map
