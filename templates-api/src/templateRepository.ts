@@ -10,8 +10,6 @@ export default class TemplateRepository {
   constructor() {
     this.db = new Database('db/templates.db', { verbose: console.log });
     this.applyMigrations()
-    const init_statement = this.db.prepare("INSERT INTO templates (name,type) VALUES (?, ?)")
-    init_statement.run("Pikachu","Elec")
   }
 
   //Table creation

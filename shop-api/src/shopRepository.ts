@@ -9,8 +9,6 @@ export default class ShopRepository {
   constructor() {
     this.db = new Database('db/shop.db', { verbose: console.log });
     this.applyMigrations()
-    const init_statement = this.db.prepare("INSERT INTO shop (pokemon_id) VALUES (?)")
-    init_statement.run(1)
   }
 
   //Table creation

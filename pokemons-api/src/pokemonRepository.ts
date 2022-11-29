@@ -10,9 +10,6 @@ export default class PokemonRepository {
   constructor() {
     this.db = new Database('db/pokemon.db', { verbose: console.log });
     this.applyMigrations()
-    /*
-    const init_statement = this.db.prepare("INSERT INTO pokemon (name,type,owner_id) VALUES (?, ?, ?)")
-    init_statement.run("Pikachu","Elec",1)*/
   }
 
   //Table creation
@@ -52,11 +49,7 @@ export default class PokemonRepository {
 
   getPokemonByName(name: string) {
     const statement = this.db.prepare("SELECT * FROM pokemon WHERE name=?")
-    console.log("\nQuery ")
-    console.log(statement.all(name))
     const rows: PokemonOwned[] = statement.all(name)
-    console.log("\nRepository src")
-    console.log(rows)
     return rows
   }
 

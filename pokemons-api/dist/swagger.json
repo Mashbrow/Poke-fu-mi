@@ -1,0 +1,304 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Seans-TypeScript-NodeJS-CRUD-REST-API-Boilerplate",
+        "description": "A minimal and easy to follow example of what you need to create a CRUD style API in NodeJs using TypeScript",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Local Dev, or from Heroku"
+        },
+        {
+            "url": "/api/",
+            "description": "With docker-compose and nginx proxy"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Pokemon",
+            "description": "API for Pokemons in the App"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/pokemon": {
+            "get": {
+                "tags": [
+                    "Pokemon"
+                ],
+                "summary": "Get all pokemons in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Pokemons"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pokemon"
+                ],
+                "summary": "Create a new pokemon in system",
+                "requestBody": {
+                    "description": "Pokemon Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Pokemon"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/pokemon/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the pokemon that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Pokemon"
+                ],
+                "summary": "Get pokemon with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Pokemon with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Pokemon"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Pokemon not found."
+                    }
+                }
+            }
+        },
+        "/pokemonbyname/{name}": {
+            "parameters": [
+                {
+                    "name": "name",
+                    "in": "path",
+                    "required": true,
+                    "description": "Name of the pokemon that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Pokemon"
+                ],
+                "summary": "Get pokemon with given name",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "name",
+                        "required": true,
+                        "description": "Pokemon with name",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Pokemon"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Pokemon not found."
+                    }
+                }
+            }
+        },
+        "/pokemonbyuserid/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the user that owns the pokemons",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Pokemons"
+                ],
+                "summary": "Get pokemons with given user ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Pokemons with user id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Pokemons"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Pokemons not found."
+                    }
+                }
+            }
+        },
+        "/pokemonweaknessbyid/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the pokemon from which we want the weakness",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Pokemon"
+                ],
+                "summary": "Get pokemon weakness with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Pokemon with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/weakness"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Pokemon not found."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "id": {
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "weakness": {
+            "properties": {
+                "_weakness": {
+                    "type": "string"
+                }
+            }
+        },
+        "Pokemon": {
+            "type": "object",
+            "properties": {
+                "pokemon_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "evolution_id": {
+                    "type": "string"
+                },
+                "xp": {
+                    "type": "number"
+                },
+                "xp_max": {
+                    "type": "number"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "level_max": {
+                    "type": "integer"
+                },
+                "hp_max": {
+                    "type": "integer"
+                },
+                "capacite_id": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Pokemons": {
+            "type": "object",
+            "properties": {
+                "pokemons": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Pokemon"
+                    }
+                }
+            }
+        }
+    }
+}

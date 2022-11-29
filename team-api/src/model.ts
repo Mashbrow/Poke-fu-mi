@@ -13,6 +13,7 @@ interface PokemonOwned {
 
 interface Team {
     id: number
+    user_id:number
     pokemon1?: PokemonOwned
     pokemon2?: PokemonOwned
     pokemon3?: PokemonOwned
