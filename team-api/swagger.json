@@ -1,0 +1,166 @@
+
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Seans-TypeScript-NodeJS-CRUD-REST-API-Boilerplate",
+        "description": "A minimal and easy to follow example of what you need to create a CRUD style API in NodeJs using TypeScript",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Local Dev, or from Heroku"
+        },
+        {
+            "url": "/api/",
+            "description": "With docker-compose and nginx proxy"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Team",
+            "description": "API for the teams in the App"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/teams": {
+            "get": {
+                "tags": [
+                    "Teams"
+                ],
+                "summary": "Get all teams in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Teams"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the team that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Team"
+                ],
+                "summary": "Get team with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Team with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Team"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Pokemon not found."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Team"
+                ],
+                "summary": "Create a new team in system",
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Team with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "id": {
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "Team": {
+            "type": "object",
+            "properties": {
+                "team_id": {
+                    "type": "integer"
+                },
+                "pokemon1": {
+                    "type": "integer"
+                },
+                "pokemon2": {
+                    "type": "integer"
+                },
+                "pokemon3": {
+                    "type": "integer"
+                },
+                "pokemon4": {
+                    "type": "integer"
+                },
+                "pokemon5": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Teams": {
+            "type": "object",
+            "properties": {
+                "trades": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Team"
+                    }
+                }
+            }
+        }
+    }
+}
