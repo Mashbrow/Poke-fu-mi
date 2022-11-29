@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTeam = exports.findTeamById = exports.addTeam = exports.listTeams = void 0;
+exports.addToTeam = exports.updateTeam = exports.findTeamById = exports.addTeam = exports.listTeams = void 0;
 const teamRepository_1 = __importDefault(require("./teamRepository"));
 const teamRepository = new teamRepository_1.default();
 const findTeamById = (id) => {
@@ -14,6 +14,11 @@ const listTeams = () => {
     return teamRepository.getAllTeams();
 };
 exports.listTeams = listTeams;
+const addToTeam = (user_id, pokemon_id, slot) => {
+    teamRepository.addToTeam(user_id, pokemon_id, slot);
+    return teamRepository.getAllTeams();
+};
+exports.addToTeam = addToTeam;
 const addTeam = (teamId) => {
     teamRepository.createTeam(teamId);
     return teamRepository.getAllTeams();

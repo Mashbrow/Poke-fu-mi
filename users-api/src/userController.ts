@@ -16,7 +16,8 @@ const listUsers = () => {
 const addUser = async (newUser: User) => {
     const id = userRepository.createUser(newUser)
     const resp = axios.post('http://localhost:5001/team/'+ id.toString()).then(value=>value.data)
-    return userRepository.getAllUsers()
+    console.log(id)
+    return id
 }
 
 
@@ -25,5 +26,10 @@ const updateUser = (id: number, updateUser: User) => {
   return userRepository.getAllUsers()
 }
 
+const reduceMoney = (id: number, amount:number) => {
+    userRepository.addMoney(id,-amount)
+    return userRepository.getUserById(id)
+}
 
-export { listUsers, addUser, findUserById, updateUser }
+
+export { listUsers, addUser, findUserById, updateUser, reduceMoney }

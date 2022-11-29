@@ -38,6 +38,12 @@ const register = (app) => {
         const teamId = parseFloat(req.params.id);
         res.status(200).json(TeamController.addTeam(teamId));
     });
+    app.post('/addtoteam', (req, res) => {
+        const myId = req.query.myId;
+        const myPokemonId = req.query.pokemonShopId;
+        const myTeamSlot = req.query.slot;
+        res.status(200).json(TeamController.addToTeam(myId, Number(myPokemonId), myTeamSlot));
+    });
 };
 exports.register = register;
 //# sourceMappingURL=routes.js.map

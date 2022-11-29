@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.findUserById = exports.addUser = exports.listUsers = void 0;
+exports.reduceMoney = exports.updateUser = exports.findUserById = exports.addUser = exports.listUsers = void 0;
 const userRepository_1 = __importDefault(require("./userRepository"));
 const axios_1 = __importDefault(require("axios"));
 const userRepository = new userRepository_1.default();
@@ -27,7 +27,8 @@ exports.listUsers = listUsers;
 const addUser = (newUser) => __awaiter(void 0, void 0, void 0, function* () {
     const id = userRepository.createUser(newUser);
     const resp = axios_1.default.post('http://localhost:5001/team/' + id.toString()).then(value => value.data);
-    return userRepository.getAllUsers();
+    console.log(id);
+    return id;
 });
 exports.addUser = addUser;
 const updateUser = (id, updateUser) => {
@@ -35,4 +36,9 @@ const updateUser = (id, updateUser) => {
     return userRepository.getAllUsers();
 };
 exports.updateUser = updateUser;
+const reduceMoney = (id, amount) => {
+    userRepository.addMoney(id, -amount);
+    return userRepository.getUserById(id);
+};
+exports.reduceMoney = reduceMoney;
 //# sourceMappingURL=userController.js.map

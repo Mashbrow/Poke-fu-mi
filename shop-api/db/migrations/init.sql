@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS shop (
   trade_id INTEGER PRIMARY KEY,
   pokemon_id  INTEGER,
-  price  INTEGER  DEFAULT  0
+  price  INTEGER  DEFAULT  1
 )
