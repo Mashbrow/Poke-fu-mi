@@ -15,10 +15,8 @@ export const register = ( app: express.Application ) => {
   })
 
   app.post('/shop', (req, res) => {
-    const pokemon_id: number = (req.query as any).pokemon_id
-    const price: number = (req.query as any).price
-    const newTrade: Trade = {pokemon_id:pokemon_id,price:price}
-    res.status(200).json(ShopController.addTrade(newTrade))
+    const trade : Trade = req.body
+    res.status(200).json(ShopController.addTrade(trade))
   })
 
 }

@@ -12,7 +12,7 @@ const listTeams = () => {
   return teamRepository.getAllTeams()
 }
 
-const addToTeam = (user_id:number, pokemon_id:number, slot:number) => {
+const addToTeam = (user_id:string, pokemon_id:string, slot:string) => {
   teamRepository.addToTeam(user_id,pokemon_id,slot)
   return teamRepository.getAllTeams()
 }

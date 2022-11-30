@@ -65,7 +65,7 @@ export default class TemplateRepository {
 
   createPokemon(pokemon: Pokemon) {
     const statement =
-    this.db.prepare("INSERT INTO templates (name, type, evolution_id, xp, xp_max, level, level_max, hp_max, capacite_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    this.db.prepare("INSERT INTO templates (name, type, evolution_id, xp, xp_max, level, level_max, hp_max, capacite_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
     return statement.run(pokemon.name,pokemon.type,pokemon.evolution_id,pokemon.xp, pokemon.xp_max, pokemon.level, pokemon.level_max, pokemon.hp_max, pokemon.capacite_id).lastInsertRowid
   }
 

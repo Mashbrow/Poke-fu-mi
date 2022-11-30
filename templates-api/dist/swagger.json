@@ -1,0 +1,254 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Seans-TypeScript-NodeJS-CRUD-REST-API-Boilerplate",
+        "description": "A minimal and easy to follow example of what you need to create a CRUD style API in NodeJs using TypeScript",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Local Dev, or from Heroku"
+        },
+        {
+            "url": "/api/",
+            "description": "With docker-compose and nginx proxy"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Teamplate",
+            "description": "API for the template in the App"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/templates": {
+            "get": {
+                "tags": [
+                    "Templates"
+                ],
+                "summary": "Get all templates in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Templates"
+                        }
+                    }
+                }
+            }
+        },
+        "/template/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the template that we want to match, the id of the template corresponds to the pokemon_id in the database",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Template"
+                ],
+                "summary": "Get template with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Template with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Template"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Template not found."
+                    }
+                }
+            }
+        },
+        "/templatebyname/{name}": {
+            "parameters": [
+                {
+                    "name": "name",
+                    "in": "path",
+                    "required": true,
+                    "description": "name of the template that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Template"
+                ],
+                "summary": "Get template with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "name",
+                        "required": true,
+                        "description": "Template with name",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Template"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Template not found."
+                    }
+                }
+            }
+        },
+        "/templateweaknessbyid/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the template of which we want the weakness",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Template"
+                ],
+                "summary": "Get template weakness with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Template with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Template"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Teamplate not found."
+                    }
+                }
+            }
+        },
+        "/template": {
+            "post": {
+                "tags": [
+                    "Template"
+                ],
+                "summary": "Create a new template in system",
+                "requestBody": {
+                    "description": "Template Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Template"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "id": {
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "Template": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "evolution_id": {
+                    "type": "integer"
+                },
+                "xp": {
+                    "type": "integer"
+                },
+                "xp_max": {
+                    "type": "integer"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "level_max": {
+                    "type": "integer"
+                },
+                "hp_max": {
+                    "type": "integer"
+                },
+                "capacite_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Templates": {
+            "type": "object",
+            "properties": {
+                "trades": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Template"
+                    }
+                }
+            }
+        }
+    }
+}

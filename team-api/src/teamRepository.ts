@@ -51,27 +51,27 @@ export default class TeamRepository {
       this.db.prepare("UPDATE teams SET user_id,pokemon1,pokemon2,pokemon3,pokemon4,pokemon5 WHERE team_id="+userId.toString())
       return statement.run(team.user_id,team.pokemon1,team.pokemon2,team.pokemon3,team.pokemon4,team.pokemon5).lastInsertRowid
   }
-  addToTeam(userId: number, pokemonId:number, slot:number) {
-    switch (slot.toString()) {
+  addToTeam(userId: string, pokemonId:string, slot:string) {
+    switch (slot) {
       case "1":
         const statement1 =
-        this.db.prepare("UPDATE teams SET pokemon1 = (?) WHERE user_id="+userId.toString())
+        this.db.prepare("UPDATE teams SET pokemon1 = (?) WHERE user_id="+userId)
         return statement1.run(pokemonId)
       case "2":
         const statement2 =
-        this.db.prepare("UPDATE teams SET pokemon2 = (?) WHERE user_id="+userId.toString())
+        this.db.prepare("UPDATE teams SET pokemon2 = (?) WHERE user_id="+userId)
         return statement2.run(pokemonId)
       case "3":
         const statement3 =
-        this.db.prepare("UPDATE teams SET pokemon3 = (?) WHERE user_id="+userId.toString())
+        this.db.prepare("UPDATE teams SET pokemon3 = (?) WHERE user_id="+userId)
         return statement3.run(pokemonId)
       case "4":
         const statement4 =
-        this.db.prepare("UPDATE teams SET pokemon4 = (?) WHERE user_id="+userId.toString())
+        this.db.prepare("UPDATE teams SET pokemon4 = (?) WHERE user_id="+userId)
         return statement4.run(pokemonId)
       case "5":
         const statement5 =
-        this.db.prepare("UPDATE teams SET pokemon5 = (?) WHERE user_id="+userId.toString())
+        this.db.prepare("UPDATE teams SET pokemon5 = (?) WHERE user_id="+userId)
         return statement5.run(pokemonId)
     }
   }

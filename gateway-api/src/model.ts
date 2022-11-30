@@ -38,5 +38,11 @@ interface Trade {
     price:number
 }
 
-export { PokemonTemplate, PokemonOwned, User, Trade}
+type ResponseType <T>= {
+    code:number,
+    content?:T
+    errorMessage?:string
+}
+
+export { PokemonTemplate, PokemonOwned, User, Trade, ResponseType}
   

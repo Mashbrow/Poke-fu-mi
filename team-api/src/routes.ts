@@ -19,10 +19,10 @@ export const register = ( app: express.Application ) => {
     res.status(200).json(TeamController.addTeam(teamId))
   })
   app.post('/addtoteam', (req, res) => {
-    const myId: number = (req.query as any).myId
-    const myPokemonId: number = (req.query as any).pokemonShopId
-    const myTeamSlot:number = (req.query as any).slot
-    res.status(200).json(TeamController.addToTeam(myId,Number(myPokemonId),myTeamSlot))
+    const myId: string = (req.query as any).userId
+    const myPokemonId: string = (req.query as any).pokemonId
+    const myTeamSlot:string = (req.query as any).slot
+    res.status(200).json(TeamController.addToTeam(myId,myPokemonId,myTeamSlot))
   })
 
 }
