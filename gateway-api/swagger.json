@@ -22,8 +22,8 @@
     ],
     "tags": [
         {
-            "name": "User",
-            "description": "API for the template in the App"
+            "name": "Gateway",
+            "description": "API for the gateway in the App"
         }
     ],
     "consumes": [
@@ -33,43 +33,121 @@
         "application/json"
     ],
     "paths": {
-        "/users": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Get all users in system",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/{id}": {
+        "/mypokemons/{token}": {
             "parameters": [
                 {
-                    "name": "id",
+                    "name": "token",
                     "in": "path",
                     "required": true,
-                    "description": "ID of the user that we want to match",
+                    "description": "token of the user",
                     "type": "string"
                 }
             ],
             "get": {
                 "tags": [
-                    "User"
+                    "Pokemons"
                 ],
-                "summary": "Get user with given ID",
+                "summary": "Get all pokemons the user owns",
+                "parameters": [
+                    {
+                    "in": "path",
+                    "name": "token",
+                    "required": true,
+                    "description": "token of the user",
+                    "schema": {
+                        "$ref": "#/definitions/id"
+                    }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Pokemons"
+                        }
+                    }
+                }
+            }
+        },
+        "/buypokemon/{token}":{
+            "parameters":[
+                {
+                    "in": "path",
+                    "name": "token",
+                    "required": true,
+                    "description": "token of the user",
+                    "type": "string"
+                },
+                {
+                    "in": "query",
+                    "name": "pokemonShopId",
+                    "required": true,
+                    "description": "id of the pokemon to buy",
+                    "type": "integer"
+                }
+            ],
+            "post": {
+                "tags": [
+                    "Pokemons"
+                ],
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "token",
+                        "required": true,
+                        "description": "token of the user",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "pokemonShopId",
+                        "required": true,
+                        "description": "id of the pokemon",
+                        "schema": {
+                            "$ref": "#/definitions/PokemonId"
+                        }
+                    }
+                ],
+                "summary": "Register a User in the system",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/myteam/{token}": {
+            "parameters": [
+                {
+                    "name": "token",
+                    "in": "path",
+                    "required": true,
+                    "description": "token of the user",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Team"
+                ],
+                "summary": "Get user's team with given token",
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "id",
+                        "name": "token",
                         "required": true,
-                        "description": "User with id",
+                        "description": "Team with token",
                         "schema": {
                             "$ref": "#/definitions/id"
                         }
@@ -79,21 +157,128 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/Team"
                         }
                     },
                     "404": {
-                        "description": "Failed. User not found."
+                        "description": "Failed. Team not found."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Team"
+                ],
+                "summary": "Add a pokemon in user's team at a specific slot",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "token",
+                        "required": true,
+                        "description": "Team with token",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "pokemonId",
+                        "required": true,
+                        "description": "Id of the pokemon",
+                        "schema": {
+                            "$ref": "#/definitions/PokemonId"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "slot",
+                        "required": true,
+                        "description": "slot of the pokemon",
+                        "schema": {
+                            "$ref": "#/definitions/PokemonId"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
                     }
                 }
             }
         },
-        "/user":{
+        "/login":{
+            "parameters": [
+                {
+                    "name": "myId",
+                    "in": "query",
+                    "required": true,
+                    "description": "id of the user",
+                    "type": "number"
+                },
+                {
+                    "name": "myPassword",
+                    "in": "query",
+                    "required": true,
+                    "description": "password of the user",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Login"
+                ],
+                "parameters":[
+                    {
+                    "in": "query",
+                    "name": "myId",
+                    "required": true,
+                    "description": "id of the user",
+                    "schema": {
+                        "$ref": "#/definitions/PokemonId"
+                    } 
+                },
+                {
+                    "in": "query",
+                    "name": "myPassword",
+                    "required": true,
+                    "description": "password of the user",
+                    "schema": {
+                        "$ref": "#/definitions/id"
+                    }
+                }
+                ],
+                "summary": "Log a User in the system",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/register":{
             "post": {
                 "tags": [
-                    "User"
+                    "Register"
                 ],
-                "summary": "Create a new user in system",
+                "summary": "Register a User in the system",
                 "requestBody": {
                     "description": "User Object",
                     "required": true,
@@ -120,12 +305,90 @@
                     }
                 }
             }
+        },
+        "/untoken/{token}": {
+            "parameters": [
+                {
+                    "name": "token",
+                    "in": "path",
+                    "required": true,
+                    "description": "token of the user",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Untoken the user",
+                "parameters": [
+                    {
+                    "in": "path",
+                    "name": "token",
+                    "required": true,
+                    "description": "token of the user",
+                    "schema": {
+                        "$ref": "#/definitions/id"
+                    }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                }
+            }
         }
     },
+
+
     "definitions": {
         "id": {
             "properties": {
                 "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "PokemonId": {
+            "properties": {
+                "pId": {
+                    "type": "number"
+                }
+            }
+        },
+        "Team": {
+            "type": "object",
+            "properties": {
+                "pokemon_ids": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/PokemonId"
+                    }
+            }
+        }
+        },
+        "TeamPokemon": {
+            "type": "object",
+            "properties": {
+                "pokemon_id": {
+                    "type": "string"
+                },
+                "slot": {
+                    "type": "string"
+                }
+            }
+        },
+        "Logs": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string"
+                },
+                "password": {
                     "type": "string"
                 }
             }
@@ -135,6 +398,9 @@
             "properties": {
                 "user_id": {
                     "type": "integer"
+                },
+                "password": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -147,7 +413,7 @@
         "Users": {
             "type": "object",
             "properties": {
-                "trades": {
+                "users": {
                     "type": "object",
                     "additionalProperties": {
                         "$ref": "#/definitions/User"
